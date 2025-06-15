@@ -2,13 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { API_URL_AUTH } from '../../../global'; // Igual que en LoginService
-
-export interface DatosRegistro {
-  username: string;
-  email: string;
-  password: string;
-}
+import { API_URL_AUTH } from '../../../global'; 
+import { DatosRegistro } from '../../app/interfaces/datos-registro';
 
 @Injectable({
   providedIn: 'root',
