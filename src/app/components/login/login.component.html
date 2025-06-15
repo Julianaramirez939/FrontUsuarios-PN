@@ -1,0 +1,65 @@
+<div class="login-container">
+  <img src="assets/images/logocue.png" alt="Logo" class="login-logo" />
+  <h2 class="login-title">Gestión de Horarios Humboldt - Ing Soft</h2>
+
+  <form
+    [formGroup]="formularioLogin"
+    (ngSubmit)="enviarFormulario()"
+    class="login-form"
+    novalidate
+  >
+    <!-- Usuario -->
+    <div>
+      <label for="username" class="login-label">Usuario</label>
+      <input
+        type="text"
+        id="username"
+        formControlName="username"
+        class="login-input"
+        [ngClass]="{
+          'input-error': errores.username
+        }"
+      />
+      <p *ngIf="errores.username" class="error-message">
+        {{ errores.username }}
+      </p>
+    </div>
+
+    <!-- Contraseña -->
+    <div>
+      <label for="password" class="login-label">Contraseña</label>
+      <input
+        [type]="mostrarContrasena ? 'text' : 'password'"
+        id="password"
+        formControlName="password"
+        class="login-input"
+        [ngClass]="{
+          'input-error': errores.password
+        }"
+      />
+      <p *ngIf="errores.password" class="error-message">
+        {{ errores.password }}
+      </p>
+
+      <label class="show-password-checkbox">
+        <input
+          type="checkbox"
+          [checked]="mostrarContrasena"
+          (change)="alternarContrasena()"
+        />
+        Mostrar contraseña
+      </label>
+    </div>
+
+    <!-- Botones -->
+    <button type="submit" class="btn-login">Iniciar Sesión</button>
+    <button type="button" class="btn-register" (click)="irARegistro()">
+      Registrarse
+    </button>
+
+    <!-- Recuperar contraseña -->
+    <div class="forgot-password">
+      <a routerLink="/recuperar">¿Olvidaste tu contraseña?</a>
+    </div>
+  </form>
+</div>
