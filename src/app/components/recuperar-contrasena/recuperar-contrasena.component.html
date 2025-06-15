@@ -1,0 +1,17 @@
+<div class="forgot-container">
+  <!-- Logo -->
+  <img src="/logocue.png" alt="Logo" class="forgot-logo" />
+
+  <div class="forgot-content">
+    <h2 class="forgot-title">Recuperar Contraseña</h2>
+
+    <form (submit)="enviarFormulario(); $event.preventDefault()">
+      <label for="email" class="forgot-label">Correo</label>
+      <input type="email" id="email" class="forgot-input" required />
+      <button type="submit" class="btn-send">Enviar</button>
+    </form>
+    <div class="back-to-login">
+      <a (click)="volverAlInicio()">Volver al inicio</a>
+    </div>
+  </div>
+</div>

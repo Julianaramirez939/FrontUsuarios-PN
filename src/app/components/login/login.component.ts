@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   NonNullableFormBuilder,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { LoginService } from '../../services/login.service';
@@ -13,7 +13,7 @@ import { LoginService } from '../../services/login.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -76,4 +76,5 @@ export class LoginComponent {
   irARegistro(): void {
     this.enrutador.navigate(['/registro']);
   }
+  
 }
