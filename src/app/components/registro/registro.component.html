@@ -1,1 +1,97 @@
-<p>registro works!</p>
+<div class="register-container">
+  <h2 class="register-title">Registro</h2>
+  <form
+    [formGroup]="formularioRegistro"
+    (ngSubmit)="enviarFormulario()"
+    class="register-form"
+    novalidate
+  >
+    <!-- Usuario -->
+    <label for="usuario" class="register-label">Usuario</label>
+    <input
+      type="text"
+      id="usuario"
+      formControlName="usuario"
+      class="register-input"
+      [ngClass]="{
+        'input-error':
+          formularioRegistro.get('usuario')?.invalid &&
+          (formularioRegistro.get('usuario')?.touched || formularioRegistro.get('usuario')?.errors?.['duplicado'])
+      }"
+    />
+    <p
+      *ngIf="
+        formularioRegistro.get('usuario')?.invalid &&
+        (formularioRegistro.get('usuario')?.touched || formularioRegistro.get('usuario')?.errors?.['duplicado'])
+      "
+      class="error-message"
+    >
+      {{ obtenerMensajeError("usuario") }}
+    </p>
+
+    <!-- Email -->
+    <label for="email" class="register-label">Correo</label>
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      class="register-input"
+      [ngClass]="{
+        'input-error':
+          formularioRegistro.get('email')?.invalid &&
+          (formularioRegistro.get('email')?.touched || formularioRegistro.get('email')?.errors?.['duplicado'])
+      }"
+    />
+    <p
+      *ngIf="
+        formularioRegistro.get('email')?.invalid &&
+        (formularioRegistro.get('email')?.touched || formularioRegistro.get('email')?.errors?.['duplicado'])
+      "
+      class="error-message"
+    >
+      {{ obtenerMensajeError("email") }}
+    </p>
+
+    <!-- Contraseña -->
+    <label for="password" class="register-label">Contraseña</label>
+    <input
+      [type]="mostrarContrasena ? 'text' : 'password'"
+      id="password"
+      formControlName="password"
+      class="register-input"
+      [ngClass]="{
+        'input-error':
+          formularioRegistro.get('password')?.invalid &&
+          formularioRegistro.get('password')?.touched
+      }"
+    />
+    <p
+      *ngIf="
+        formularioRegistro.get('password')?.invalid &&
+        formularioRegistro.get('password')?.touched
+      "
+      class="error-message"
+    >
+      {{ obtenerMensajeError("password") }}
+    </p>
+
+    <!-- Mostrar contraseña -->
+    <div class="checkbox-container">
+      <input
+        type="checkbox"
+        id="showPassword"
+        [checked]="mostrarContrasena"
+        (change)="alternarContrasena()"
+      />
+      <label for="showPassword">Mostrar contraseña</label>
+    </div>
+
+    <!-- Botón -->
+    <button type="submit" class="btn-register-submit">Registrarse</button>
+
+    <!-- Volver -->
+    <div class="back-to-login">
+      <a (click)="volverAlInicio()">Volver al inicio</a>
+    </div>
+  </form>
+</div>
