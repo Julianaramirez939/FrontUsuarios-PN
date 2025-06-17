@@ -8,6 +8,13 @@
   border-radius: 12px;
   font-family: "Segoe UI", sans-serif;
 }
+.login-logo {
+  width: 210px;
+  height: 210px;
+  display: block;
+  margin: 0 auto; 
+}
+
 
 /* Título */
 .login-title {
