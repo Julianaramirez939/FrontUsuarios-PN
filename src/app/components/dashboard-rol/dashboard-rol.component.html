@@ -30,6 +30,13 @@
               <button class="submenu-item" (click)="mostrarPermisos(rol)">
                 <i class="fas fa-key"></i> Permisos
               </button>
+
+              <button
+                class="submenu-item eliminar"
+                (click)="eliminarRol(rol.id, rol.name)"
+              >
+                <i class="fas fa-trash"></i> Eliminar Rol
+              </button>
             </div>
           </div>
         </td>

@@ -19,7 +19,6 @@ export class RolService {
 
   listarRoles(): Observable<any> {
     if (!isPlatformBrowser(this.platformId)) {
-      console.warn('No se puede usar sessionStorage fuera del navegador');
       return throwError(() => new Error('No disponible en este entorno'));
     }
 
@@ -37,7 +36,6 @@ export class RolService {
 
     return this.http.get(this.endpoint, { headers }).pipe(
       catchError((error) => {
-        console.error('❌ Error al hacer la solicitud HTTP:', error);
         const mensaje = error?.error?.message || 'Error al obtener roles';
         return throwError(() => new Error(mensaje));
       })
@@ -46,7 +44,6 @@ export class RolService {
 
   crearRol(rol: CrearRol): Observable<any> {
     if (!isPlatformBrowser(this.platformId)) {
-      console.warn('⛔ No se puede usar sessionStorage fuera del navegador');
       return throwError(() => new Error('No disponible en este entorno'));
     }
 
@@ -66,6 +63,33 @@ export class RolService {
       catchError((error) => {
         console.error('❌ Error al crear el rol:', error);
         const mensaje = error?.error?.message || 'Error al crear rol';
+        return throwError(() => new Error(mensaje));
+      })
+    );
+  }
+  eliminarRol(id: string): Observable<any> {
+    if (!isPlatformBrowser(this.platformId)) {
+      return throwError(() => new Error('No disponible en este entorno'));
+    }
+
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
+      console.error('⚠️ No hay token en sessionStorage');
+      return throwError(() => new Error('Token no disponible'));
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    const url = `${this.endpoint}/${id}`;
+
+    return this.http.delete(url, { headers }).pipe(
+      catchError((error) => {
+        console.error('❌ Error al eliminar el rol:', error);
+        const mensaje = error?.error?.message || 'Error al eliminar rol';
         return throwError(() => new Error(mensaje));
       })
     );

@@ -18,7 +18,6 @@ export class PermisoService {
 
   listarPermisos(): Observable<any> {
     if (!isPlatformBrowser(this.platformId)) {
-      console.warn('⛔ No se puede usar sessionStorage fuera del navegador');
       return throwError(() => new Error('No disponible en este entorno'));
     }
 

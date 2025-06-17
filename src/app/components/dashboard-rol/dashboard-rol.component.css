@@ -259,3 +259,10 @@
   margin-top: 4px;
   font-size: 0.9rem;
 }
+.submenu-item.eliminar {
+  color: #e74c3c;
+}
+
+.submenu-item.eliminar:hover {
+  background-color: #fbeaea;
+}
