@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  imports: [RouterModule, CommonModule]
+  imports: [RouterModule, CommonModule],
 })
 export class DashboardComponent {
   mostrarMenuUsuario = false;
@@ -20,8 +20,8 @@ export class DashboardComponent {
   irARuta(ruta: string): void {
     this.router.navigate([`/dashboard/${ruta}`]);
   }
-
   cerrarSesion(): void {
+    sessionStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 

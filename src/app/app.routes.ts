@@ -3,7 +3,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
-import { DashboardRolComponent } from './components/dashboard-rol/dashboard-rol.component'; // importa el componente hijo
+import { DashboardRolComponent } from './components/dashboard-rol/dashboard-rol.component';
+import { AuthGuard } from './guards/auth.guard'; 
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -13,9 +14,10 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard], // 👈 protege esta ruta
     children: [
       { path: 'roles', component: DashboardRolComponent }
-      // Puedes agregar más hijos aquí si lo necesitas
+      // Puedes agregar más hijos protegidos aquí
     ]
   },
 
