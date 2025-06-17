@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { API_URL } from '../../../global';
 import { DatosRegistro } from '../../app/interfaces/datos-registro';
 
+
 @Injectable({
   providedIn: 'root',
 })

@@ -2,7 +2,7 @@
   <h1 class="roles-title">Roles</h1>
 
   <div class="roles-toolbar">
-    <button class="btn-crear-rol">
+    <button class="btn-crear-rol" (click)="abrirModalCrear()">
       <i class="fas fa-plus" style="margin-right: 8px"></i>
       Crear Rol
     </button>
@@ -26,7 +26,6 @@
               <i class="fas fa-eye"></i> Detalles
             </button>
 
-            <!-- Submenú visible solo si este rol está activo -->
             <div class="submenu" *ngIf="rol === rolMostrado">
               <button class="submenu-item" (click)="mostrarPermisos(rol)">
                 <i class="fas fa-key"></i> Permisos
@@ -38,8 +37,8 @@
     </tbody>
   </table>
 
-  <!-- Modal dinámico -->
-  <div class="modal-overlay" *ngIf="showModal">
+  <!-- Modal de permisos del rol -->
+  <div class="modal-overlay" *ngIf="showModalPermisos">
     <div class="modal-content">
       <h2>Permisos del rol: {{ selectedRoleName }}</h2>
       <ul>
@@ -47,9 +46,98 @@
           {{ permiso.description }}
         </li>
       </ul>
-      <button class="btn-accion eliminar" (click)="cerrarModal()">
+      <button class="btn-accion eliminar" (click)="cerrarModalPermisos()">
         Cerrar
       </button>
+    </div>
+  </div>
+
+  <!-- Modal para crear rol -->
+  <div class="modal-overlay" *ngIf="showCrearModal">
+    <div class="modal-content">
+      <h2>Crear Rol</h2>
+
+      <form (ngSubmit)="guardarNuevoRol()" #form="ngForm">
+        <!-- Campo: Nombre -->
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input
+            id="nombre"
+            type="text"
+            class="form-control"
+            [(ngModel)]="nuevoRol.name"
+            name="name"
+            required
+            minlength="3"
+            maxlength="50"
+            #nombre="ngModel"
+          />
+          <small class="text-danger" *ngIf="nombre.touched && nombre.invalid">
+            El nombre es obligatorio (3 a 50 caracteres).
+          </small>
+        </div>
+
+        <!-- Campo: Descripción -->
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <input
+            id="descripcion"
+            type="text"
+            class="form-control"
+            [(ngModel)]="nuevoRol.description"
+            name="description"
+            required
+            #descripcion="ngModel"
+          />
+          <small
+            class="text-danger"
+            *ngIf="descripcion.touched && descripcion.invalid"
+          >
+            La descripción es obligatoria.
+          </small>
+        </div>
+
+        <!-- Campo: Permisos -->
+        <div class="form-group">
+          <label for="permisos">Permisos</label>
+          <ng-select
+            id="permisos"
+            [items]="permisosDisponibles"
+            bindLabel="description"
+            bindValue="id"
+            [(ngModel)]="nuevoRol.permissionIds"
+            [multiple]="true"
+            name="permissionIds"
+            required
+            #permisos="ngModel"
+          >
+          </ng-select>
+          <small
+            class="text-danger"
+            *ngIf="permisos.touched && permisos.invalid"
+          >
+            Selecciona al menos un permiso.
+          </small>
+        </div>
+
+        <!-- Acciones -->
+        <div class="modal-actions">
+          <button
+            type="submit"
+            class="btn-accion guardar"
+            [disabled]="form.invalid"
+          >
+            Guardar
+          </button>
+          <button
+            type="button"
+            class="btn-accion eliminar"
+            (click)="cerrarModalCrear()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </section>

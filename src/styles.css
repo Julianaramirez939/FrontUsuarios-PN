@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+ng-dropdown-panel {
+  background-color: white !important;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1050;
+}
+
+ng-dropdown-panel .ng-option {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+ng-dropdown-panel .ng-option:hover {
+  background-color: #f3f4f6;
+}
+ng-select.ng-select.ng-has-value .ng-value-container .ng-placeholder {
+  display: none !important;
+}
+ng-select.ng-select.ng-select-multiple .ng-value-container {
+  display: flex;
+  flex-direction: column; /* 🔽 Esto las apila verticalmente */
+  align-items: flex-start;
+  gap: 4px; /* Espacio entre cada seleccionada */
+}
+
+ng-select.ng-select.ng-select-multiple .ng-value {
+  width: 100%; /* Para que ocupen todo el ancho disponible */
+}
