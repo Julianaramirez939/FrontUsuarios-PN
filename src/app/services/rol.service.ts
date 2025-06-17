@@ -94,4 +94,17 @@ export class RolService {
       })
     );
   }
+  actualizarRol(id: string, rol: CrearRol): Observable<any> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put(`${this.endpoint}/${id}`, rol, { headers }).pipe(
+      catchError((error) => {
+        const mensaje = error?.error?.message || 'Error al actualizar rol';
+        return throwError(() => new Error(mensaje));
+      })
+    );
+  }
 }

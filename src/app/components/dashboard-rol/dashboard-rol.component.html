@@ -31,6 +31,10 @@
                 <i class="fas fa-key"></i> Permisos
               </button>
 
+              <button class="submenu-item" (click)="abrirModalEditar(rol)">
+                <i class="fas fa-edit"></i> Actualizar
+              </button>
+
               <button
                 class="submenu-item eliminar"
                 (click)="eliminarRol(rol.id, rol.name)"
@@ -65,7 +69,6 @@
       <h2>Crear Rol</h2>
 
       <form (ngSubmit)="guardarNuevoRol()" #form="ngForm">
-        <!-- Campo: Nombre -->
         <div class="form-group">
           <label for="nombre">Nombre</label>
           <input
@@ -84,7 +87,6 @@
           </small>
         </div>
 
-        <!-- Campo: Descripción -->
         <div class="form-group">
           <label for="descripcion">Descripción</label>
           <input
@@ -104,7 +106,6 @@
           </small>
         </div>
 
-        <!-- Campo: Permisos -->
         <div class="form-group">
           <label for="permisos">Permisos</label>
           <ng-select
@@ -127,7 +128,6 @@
           </small>
         </div>
 
-        <!-- Acciones -->
         <div class="modal-actions">
           <button
             type="submit"
@@ -140,6 +140,94 @@
             type="button"
             class="btn-accion eliminar"
             (click)="cerrarModalCrear()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para editar rol -->
+  <div class="modal-overlay" *ngIf="showEditarModal">
+    <div class="modal-content">
+      <h2>Editar Rol</h2>
+
+      <form (ngSubmit)="guardarRolEditado()" #formEditar="ngForm">
+        <div class="form-group">
+          <label for="edit-nombre">Nombre</label>
+          <input
+            id="edit-nombre"
+            type="text"
+            class="form-control"
+            [(ngModel)]="editarRol.name"
+            name="editName"
+            required
+            minlength="3"
+            maxlength="50"
+            #editNombre="ngModel"
+          />
+          <small
+            *ngIf="editNombre.touched && editNombre.invalid"
+            class="text-danger"
+          >
+            El nombre es obligatorio (3 a 50 caracteres).
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="edit-descripcion">Descripción</label>
+          <input
+            id="edit-descripcion"
+            type="text"
+            class="form-control"
+            [(ngModel)]="editarRol.description"
+            name="editDescription"
+            required
+            #editDescripcion="ngModel"
+          />
+          <small
+            *ngIf="editDescripcion.touched && editDescripcion.invalid"
+            class="text-danger"
+          >
+            La descripción es obligatoria.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="edit-permisos">Permisos</label>
+          <ng-select
+            id="edit-permisos"
+            [items]="permisosDisponibles"
+            bindLabel="description"
+            bindValue="id"
+            [(ngModel)]="editarRol.permissionIds"
+            [multiple]="true"
+            name="editPermissionIds"
+            required
+            #editPermisos="ngModel"
+          >
+          </ng-select>
+          <small
+            *ngIf="editPermisos.touched && editPermisos.invalid"
+            class="text-danger"
+          >
+            Selecciona al menos un permiso.
+          </small>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="submit"
+            class="btn-accion guardar"
+            [disabled]="formEditar.invalid"
+          >
+            Guardar Cambios
+          </button>
+          <button
+            type="button"
+            class="btn-accion eliminar"
+            (click)="cerrarModalEditar()"
           >
             Cancelar
           </button>

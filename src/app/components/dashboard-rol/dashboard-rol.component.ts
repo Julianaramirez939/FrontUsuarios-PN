@@ -23,8 +23,16 @@ export class DashboardRolComponent implements OnInit {
   showModalPermisos: boolean = false;
   showCrearModal: boolean = false;
   rolMostrado: any = null;
+  showEditarModal: boolean = false;
+  rolEditando: any = null;
 
   nuevoRol: CrearRol = {
+    name: '',
+    description: '',
+    permissionIds: [],
+  };
+
+  editarRol: CrearRol = {
     name: '',
     description: '',
     permissionIds: [],
@@ -157,5 +165,57 @@ export class DashboardRolComponent implements OnInit {
         });
       }
     });
+  }
+
+  abrirModalEditar(rol: any): void {
+    this.rolEditando = rol;
+    this.editarRol = {
+      name: rol.name,
+      description: rol.description,
+      permissionIds: rol.permissions.map((p: any) => p.id), // IDs seleccionados
+    };
+    this.showEditarModal = true;
+  }
+
+  cerrarModalEditar(): void {
+    this.showEditarModal = false;
+    this.rolEditando = null;
+    this.editarRol = {
+      name: '',
+      description: '',
+      permissionIds: [],
+    };
+  }
+
+  guardarRolEditado(): void {
+    if (
+      !this.editarRol.name.trim() ||
+      !this.editarRol.description.trim() ||
+      this.editarRol.permissionIds.length === 0
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Datos incompletos',
+        text: 'Completa todos los campos antes de guardar.',
+      });
+      return;
+    }
+
+    this.rolService
+      .actualizarRol(this.rolEditando.id, this.editarRol)
+      .subscribe({
+        next: () => {
+          Swal.fire(
+            'Actualizado',
+            'El rol fue actualizado correctamente.',
+            'success'
+          );
+          this.cerrarModalEditar();
+          this.cargarRoles();
+        },
+        error: (err) => {
+          Swal.fire('Error', err.message, 'error');
+        },
+      });
   }
 }
