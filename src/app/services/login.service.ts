@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { API_URL_AUTH } from '../../../global';
+import { API_URL } from '../../../global';
 import { CredencialesLogin } from '../../app/interfaces/credenciales-login';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private readonly endpoint = `${API_URL_AUTH}/auth/login`;
+  private readonly endpoint = `${API_URL}/auth/login`;
 
   constructor(private http: HttpClient) {}
 

@@ -35,7 +35,7 @@ label {
 /* Inputs */
 input[type="text"],
 input[type="password"] {
-  width: 100%;
+  width: 95%;
   padding: 0.6rem 0.8rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;

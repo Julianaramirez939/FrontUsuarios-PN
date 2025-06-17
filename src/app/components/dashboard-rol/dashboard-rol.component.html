@@ -1,0 +1,55 @@
+<section class="dashboard-content">
+  <h1 class="roles-title">Roles</h1>
+
+  <div class="roles-toolbar">
+    <button class="btn-crear-rol">
+      <i class="fas fa-plus" style="margin-right: 8px"></i>
+      Crear Rol
+    </button>
+  </div>
+
+  <table class="roles-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rol of roles">
+        <td>{{ rol.name }}</td>
+        <td>{{ rol.description }}</td>
+        <td class="acciones-cell">
+          <div class="menu-container">
+            <button class="menu-button" (click)="toggleDetalles(rol)">
+              <i class="fas fa-eye"></i> Detalles
+            </button>
+
+            <!-- Submenú visible solo si este rol está activo -->
+            <div class="submenu" *ngIf="rol === rolMostrado">
+              <button class="submenu-item" (click)="mostrarPermisos(rol)">
+                <i class="fas fa-key"></i> Permisos
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal dinámico -->
+  <div class="modal-overlay" *ngIf="showModal">
+    <div class="modal-content">
+      <h2>Permisos del rol: {{ selectedRoleName }}</h2>
+      <ul>
+        <li *ngFor="let permiso of selectedPermissions">
+          {{ permiso.description }}
+        </li>
+      </ul>
+      <button class="btn-accion eliminar" (click)="cerrarModal()">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</section>

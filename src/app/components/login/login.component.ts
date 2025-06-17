@@ -61,7 +61,7 @@ export class LoginComponent {
           timer: 2000,
           showConfirmButton: false,
         });
-        setTimeout(() => this.enrutador.navigate(['/Dashboard']), 2000);
+        setTimeout(() => this.enrutador.navigate(['/dashboard']), 2000);
       },
       error: () => {
         Swal.fire({

@@ -64,6 +64,14 @@ export class RegistroComponent {
       this.formularioRegistro.markAllAsTouched();
       return;
     }
+    ['usuario', 'email'].forEach((campo) => {
+      const control = this.formularioRegistro.get(campo);
+      if (control?.hasError('duplicado')) {
+        const errores = { ...control.errors };
+        delete errores['duplicado'];
+        control.setErrors(Object.keys(errores).length ? errores : null);
+      }
+    });
 
     const { usuario, email, password } = this.formularioRegistro.value;
 
@@ -78,30 +86,43 @@ export class RegistroComponent {
             timer: 2000,
             showConfirmButton: false,
           });
-
           setTimeout(() => this.router.navigate(['/']), 2000);
         },
-        error: (error: any) => {
-          const mensaje = error?.message;
-
-          if (mensaje === 'DUPLICADO_USUARIO') {
-            this.formularioRegistro.get('usuario')?.setErrors({ duplicado: true });
-            this.mostrarAlertaError({
-              title: 'Usuario en uso',
-              text: 'El nombre de usuario ya está registrado. Prueba con otro.',
-            });
-          } else if (mensaje === 'DUPLICADO_EMAIL') {
-            this.formularioRegistro.get('email')?.setErrors({ duplicado: true });
-            this.mostrarAlertaError({
-              title: 'Correo ya registrado',
-              text: 'Este correo ya está asociado a una cuenta. Usa otro.',
-            });
-          } else {
+        error: (errores: string[]) => {
+          if (!Array.isArray(errores) || errores.length === 0) {
             this.mostrarAlertaError({
               title: 'Error inesperado',
               text: 'No se pudo registrar. Intenta nuevamente más tarde.',
             });
+            return;
           }
+
+          errores.forEach((mensaje) => {
+            const lowerMsg = mensaje.toLowerCase();
+
+            if (lowerMsg.includes('username')) {
+              this.formularioRegistro
+                .get('usuario')
+                ?.setErrors({ duplicado: true });
+              this.mostrarAlertaError({
+                title: 'Usuario en uso',
+                text: 'El nombre de usuario ya está registrado. Prueba con otro.',
+              });
+            } else if (lowerMsg.includes('email')) {
+              this.formularioRegistro
+                .get('email')
+                ?.setErrors({ duplicado: true });
+              this.mostrarAlertaError({
+                title: 'Correo ya registrado',
+                text: 'Este correo ya está asociado a una cuenta. Usa otro.',
+              });
+            } else {
+              this.mostrarAlertaError({
+                title: 'Error en registro',
+                text: mensaje,
+              });
+            }
+          });
         },
       });
   }
@@ -122,18 +143,19 @@ export class RegistroComponent {
     const control = this.formularioRegistro.get(campo);
     if (!control || !control.errors) return '';
 
+    // No mostrar errores de tipo 'duplicado' debajo del input
+    if (control.hasError('duplicado')) return '';
+
     const mensajes: Record<string, Record<string, string>> = {
       usuario: {
         required: 'El usuario es obligatorio',
         minlength: 'Debe tener al menos 5 caracteres',
         maxlength: 'No debe superar los 25 caracteres',
-        duplicado: 'El nombre de usuario ya está en uso',
       },
       email: {
         required: 'El correo es obligatorio',
         email: 'El correo no es válido',
         pattern: 'Debe usar @cue.edu.co o @unihumboldt.co',
-        duplicado: 'El correo ya está registrado',
       },
       password: {
         required: 'La contraseña es obligatoria',

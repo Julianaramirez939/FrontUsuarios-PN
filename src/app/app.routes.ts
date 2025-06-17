@@ -1,13 +1,23 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from '../app/components/login/login.component';
-import { RegistroComponent } from '../app/components/registro/registro.component'; // Asegúrate de que la ruta sea correcta
+import { LoginComponent } from './components/login/login.component';
+import { RegistroComponent } from './components/registro/registro.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
+import { DashboardRolComponent } from './components/dashboard-rol/dashboard-rol.component'; // importa el componente hijo
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent }, // Ruta raíz
-  { path: 'registro', component: RegistroComponent }, // Nueva ruta para registro
-  { path: 'Dashboard', component: DashboardComponent },
+  { path: '', component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
   { path: 'recuperar', component: RecuperarContrasenaComponent },
-  { path: '**', redirectTo: '' }, // Redirección en caso de rutas no válidas
+
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    children: [
+      { path: 'roles', component: DashboardRolComponent }
+      // Puedes agregar más hijos aquí si lo necesitas
+    ]
+  },
+
+  { path: '**', redirectTo: '' }
 ];
