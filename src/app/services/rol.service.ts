@@ -62,8 +62,8 @@ export class RolService {
     return this.http.post(this.endpoint, rol, { headers }).pipe(
       catchError((error) => {
         console.error('❌ Error al crear el rol:', error);
-        const mensaje = error?.error?.message || 'Error al crear rol';
-        return throwError(() => new Error(mensaje));
+        const errores: string[] = error?.error?.errors || [];
+          return throwError(() => errores);
       })
     );
   }

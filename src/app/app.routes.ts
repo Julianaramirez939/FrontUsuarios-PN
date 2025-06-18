@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 import { DashboardRolComponent } from './components/dashboard-rol/dashboard-rol.component';
 import { AuthGuard } from './guards/auth.guard'; 
+import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -16,8 +17,8 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard], // 👈 protege esta ruta
     children: [
-      { path: 'roles', component: DashboardRolComponent }
-      // Puedes agregar más hijos protegidos aquí
+      { path: 'roles', component: DashboardRolComponent },
+      { path: 'usuarios', component: DashboardUsuarioComponent }
     ]
   },
 

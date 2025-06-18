@@ -106,39 +106,50 @@ export class DashboardRolComponent implements OnInit {
   }
 
   guardarNuevoRol(): void {
-    // Validar que los campos no estén vacíos
-    if (
-      !this.nuevoRol.name.trim() ||
-      !this.nuevoRol.description.trim() ||
-      this.nuevoRol.permissionIds.length === 0
-    ) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Datos incompletos',
-        text: 'Por favor completa todos los campos antes de guardar.',
-        confirmButtonText: 'Entendido',
-      });
-      return; // Detiene el proceso si hay campos vacíos
-    }
-
-    // Si pasa la validación, se crea el rol
-    this.rolService.crearRol(this.nuevoRol).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Rol creado exitosamente',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-        this.cerrarModalCrear();
-        this.cargarRoles();
-      },
-      error: (err) => {
-        console.error('Error al crear rol:', err.message);
-      },
-    });
+  if (
+    !this.nuevoRol.name.trim() ||
+    !this.nuevoRol.description.trim() ||
+    this.nuevoRol.permissionIds.length === 0
+  ) {
+    return;
   }
+
+  this.rolService.crearRol(this.nuevoRol).subscribe({
+    next: () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Rol creado exitosamente',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      this.cerrarModalCrear();
+      this.cargarRoles();
+    },
+    error: (errores: string[]) => {
+      console.error('❌ Error al crear el rol:', errores);
+
+      if (
+        errores &&
+        errores.some((e) =>
+          e.toLowerCase().includes('ya está en uso') || e.toLowerCase().includes('existe')
+        )
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Nombre de rol duplicado',
+          text: 'Ya existe un rol con ese nombre. Por favor elige otro.',
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al crear el rol',
+          text: errores.join(', ') || 'Ocurrió un error inesperado.',
+        });
+      }
+    },
+  });
+}
+
   eliminarRol(id: string, nombre: string): void {
     Swal.fire({
       title: `¿Eliminar rol "${nombre}"?`,
