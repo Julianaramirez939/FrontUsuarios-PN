@@ -6,6 +6,7 @@ import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/
 import { DashboardRolComponent } from './components/dashboard-rol/dashboard-rol.component';
 import { AuthGuard } from './guards/auth.guard'; 
 import { DashboardUsuarioComponent } from './components/dashboard-usuario/dashboard-usuario.component';
+import { RestablecerContrasenaComponent } from './components/restablecer-contrasena/restablecer-contrasena.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
       { path: 'usuarios', component: DashboardUsuarioComponent }
     ]
   },
+  { path: 'restablecer-contraseña', component: RestablecerContrasenaComponent },
 
   { path: '**', redirectTo: '' }
 ];

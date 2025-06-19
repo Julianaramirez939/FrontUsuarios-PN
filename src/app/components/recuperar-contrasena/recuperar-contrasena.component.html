@@ -10,9 +10,20 @@
 
     <form (submit)="enviarFormulario(); $event.preventDefault()">
       <label for="email" class="forgot-label">Correo</label>
-      <input type="email" id="email" class="forgot-input" required />
+      <input
+        type="email"
+        id="email"
+        class="forgot-input"
+        [(ngModel)]="correo"
+        name="correo"
+        required
+      />
+      <div *ngIf="errorCorreo" class="error-msg">
+        {{ errorCorreo }}
+      </div>
       <button type="submit" class="btn-send">Enviar</button>
     </form>
+
     <div class="back-to-login">
       <a (click)="volverAlInicio()">Volver al inicio</a>
     </div>

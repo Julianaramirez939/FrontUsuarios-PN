@@ -1,0 +1,51 @@
+<div class="forgot-container">
+  <img src="https://unihumboldt.edu.co/hubfs/1x1.webp" alt="Logo externo" class="forgot-logo" />
+  <div class="forgot-content">
+    <h2 class="forgot-title">Restablecer Contraseña</h2>
+
+    <form (submit)="enviarFormulario(); $event.preventDefault()">
+      <label for="token" class="forgot-label">Código de Verificación</label>
+      <input
+        id="token"
+        class="forgot-input"
+        [(ngModel)]="token"
+        name="token"
+        required
+      />
+      <div *ngIf="errorToken" class="error-msg">{{ errorToken }}</div>
+
+      <label for="newPassword" class="forgot-label">Nueva Contraseña</label>
+      <input
+        [type]="mostrarPassword ? 'text' : 'password'"
+        id="newPassword"
+        class="forgot-input"
+        [(ngModel)]="newPassword"
+        name="newPassword"
+        required
+      />
+      <div *ngIf="errorPassword" class="error-msg">{{ errorPassword }}</div>
+
+      <label for="confirmPassword" class="forgot-label">Confirmar Contraseña</label>
+      <input
+        [type]="mostrarPassword ? 'text' : 'password'"
+        id="confirmPassword"
+        class="forgot-input"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        required
+      />
+      <div *ngIf="errorConfirmPassword" class="error-msg">{{ errorConfirmPassword }}</div>
+
+      <div style="margin: 10px 0;">
+        <input type="checkbox" (change)="toggleMostrarPassword()" />
+        <label>Mostrar contraseñas</label>
+      </div>
+
+      <button type="submit" class="btn-send">Restablecer</button>
+    </form>
+
+    <div class="back-to-login">
+      <a (click)="router.navigate(['/'])">Volver al inicio</a>
+    </div>
+  </div>
+</div>
